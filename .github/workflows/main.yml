@@ -1,0 +1,16 @@
+name: Update staging branch on master commit
+on: push
+  branches:
+    - master
+jobs:
+  updateBranch:
+    name: Update staging branch
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: Embraser01/update-git-branch-action@v1.0.0
+        if: github.ref == 'refs/heads/master'
+        with:
+          branch: staging
+          force: 1 # Forces the update
+          githubToken: ${{ secrets.PAT_TOKEN }} # Required to trigger other workflowsCopied!   
