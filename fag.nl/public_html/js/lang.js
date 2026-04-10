@@ -13,14 +13,20 @@ function setLang(lang) {
   document.documentElement.lang = lang;
   localStorage.setItem('fag-lang', lang);
 
+  var capLang = lang.charAt(0).toUpperCase() + lang.slice(1);
+
   document.querySelectorAll('[data-lang-nl]').forEach(function (el) {
-    var key = 'lang' + lang.charAt(0).toUpperCase() + lang.slice(1);
+    var key = 'lang' + capLang;
     if (el.dataset[key] !== undefined) {
-      if (el.dataset[key + 'Html'] !== undefined) {
-        el.innerHTML = el.dataset[key + 'Html'];
-      } else {
-        el.textContent = el.dataset[key];
-      }
+      el.textContent = el.dataset[key];
+    }
+  });
+
+  // Translate placeholders
+  document.querySelectorAll('[data-placeholder-nl]').forEach(function (el) {
+    var key = 'placeholder' + capLang;
+    if (el.dataset[key] !== undefined) {
+      el.placeholder = el.dataset[key];
     }
   });
 
