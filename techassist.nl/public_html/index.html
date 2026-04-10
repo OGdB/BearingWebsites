@@ -162,28 +162,34 @@
             <h2 data-lang-nl="Contact opnemen"
                 data-lang-en="Get in touch"
                 data-lang-fy="Nim kontakt op">Contact opnemen</h2>
+            <p class="contact-intro"
+               data-lang-nl="Vul het formulier in en we nemen zo snel mogelijk contact met u op."
+               data-lang-en="Fill in the form and we'll get back to you as soon as possible."
+               data-lang-fy="Folje it formulier yn en wy nimme sa gau mooglik kontakt mei jo op.">Vul het formulier in en we nemen zo snel mogelijk contact met u op.</p>
             <form class="contact-form" id="contactForm" novalidate>
-                <div class="form-group">
-                    <label for="contact-name"
-                           data-lang-nl="Naam"
-                           data-lang-en="Name"
-                           data-lang-fy="Namme">Naam</label>
-                    <input type="text" id="contact-name" name="name" required
-                           data-lang-nl-placeholder="Uw volledige naam"
-                           data-lang-en-placeholder="Your full name"
-                           data-lang-fy-placeholder="Jo folsleine namme"
-                           placeholder="Uw volledige naam">
-                </div>
-                <div class="form-group">
-                    <label for="contact-email"
-                           data-lang-nl="E-mailadres"
-                           data-lang-en="Email address"
-                           data-lang-fy="E-mailadres">E-mailadres</label>
-                    <input type="email" id="contact-email" name="email" required
-                           data-lang-nl-placeholder="uwadres@voorbeeld.nl"
-                           data-lang-en-placeholder="youraddress@example.com"
-                           data-lang-fy-placeholder="jooadres@foarbyld.nl"
-                           placeholder="uwadres@voorbeeld.nl">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="contact-name"
+                               data-lang-nl="Naam"
+                               data-lang-en="Name"
+                               data-lang-fy="Namme">Naam</label>
+                        <input type="text" id="contact-name" name="name" required
+                               data-lang-nl-placeholder="Uw volledige naam"
+                               data-lang-en-placeholder="Your full name"
+                               data-lang-fy-placeholder="Jo folsleine namme"
+                               placeholder="Uw volledige naam">
+                    </div>
+                    <div class="form-group">
+                        <label for="contact-email"
+                               data-lang-nl="E-mailadres"
+                               data-lang-en="Email address"
+                               data-lang-fy="E-mailadres">E-mailadres</label>
+                        <input type="email" id="contact-email" name="email" required
+                               data-lang-nl-placeholder="uwadres@voorbeeld.nl"
+                               data-lang-en-placeholder="youraddress@example.com"
+                               data-lang-fy-placeholder="jooadres@foarbyld.nl"
+                               placeholder="uwadres@voorbeeld.nl">
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="contact-message"
@@ -199,6 +205,7 @@
                 <div class="form-recaptcha">
                     <div class="g-recaptcha" data-sitekey="6Le-iLAsAAAAANtycWj6R51kghOJ7liH46HvIxuQ"></div>
                 </div>
+                <hr class="form-divider">
                 <button type="submit" class="btn-submit"
                         data-lang-nl="Verstuur bericht"
                         data-lang-en="Send message"
