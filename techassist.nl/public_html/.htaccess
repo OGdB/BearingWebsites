@@ -1,0 +1,4 @@
+# Blokkeer directe HTTP-toegang tot configuratiebestanden
+<FilesMatch "^config(\.example)?\.php$">
+    Require all denied
+</FilesMatch>

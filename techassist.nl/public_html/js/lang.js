@@ -20,6 +20,13 @@ function setLang(lang) {
     }
   });
 
+  var placeholderKey = 'lang' + lang.charAt(0).toUpperCase() + lang.slice(1) + 'Placeholder';
+  document.querySelectorAll('[data-lang-nl-placeholder]').forEach(function (el) {
+    if (el.dataset[placeholderKey] !== undefined) {
+      el.placeholder = el.dataset[placeholderKey];
+    }
+  });
+
   document.querySelectorAll('.lang-toggle button').forEach(function (btn) {
     btn.classList.toggle('active', btn.dataset.setLang === lang);
   });

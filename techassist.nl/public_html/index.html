@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
 
@@ -148,10 +149,68 @@
             <p data-lang-nl="Neem contact met ons op en ontdek wat TechAssistent voor uw organisatie kan betekenen."
                data-lang-en="Get in touch and discover what TechAssistent can do for your organization."
                data-lang-fy="Nim kontakt mei us op en untdek wat TechAssistent foar jo organisaasje betsjutte kin.">Neem contact met ons op en ontdek wat TechAssistent voor uw organisatie kan betekenen.</p>
-            <a href="mailto:info@techassistent.nl" class="btn-cta-light"
+            <a href="#contact" class="btn-cta-light"
                data-lang-nl="Neem contact op"
                data-lang-en="Get in touch"
                data-lang-fy="Nim kontakt op">Neem contact op</a>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="contact-section" id="contact">
+        <div class="container">
+            <h2 data-lang-nl="Contact opnemen"
+                data-lang-en="Get in touch"
+                data-lang-fy="Nim kontakt op">Contact opnemen</h2>
+            <form class="contact-form" id="contactForm" novalidate>
+                <div class="form-group">
+                    <label for="contact-name"
+                           data-lang-nl="Naam"
+                           data-lang-en="Name"
+                           data-lang-fy="Namme">Naam</label>
+                    <input type="text" id="contact-name" name="name" required
+                           data-lang-nl-placeholder="Uw volledige naam"
+                           data-lang-en-placeholder="Your full name"
+                           data-lang-fy-placeholder="Jo folsleine namme"
+                           placeholder="Uw volledige naam">
+                </div>
+                <div class="form-group">
+                    <label for="contact-email"
+                           data-lang-nl="E-mailadres"
+                           data-lang-en="Email address"
+                           data-lang-fy="E-mailadres">E-mailadres</label>
+                    <input type="email" id="contact-email" name="email" required
+                           data-lang-nl-placeholder="uwadres@voorbeeld.nl"
+                           data-lang-en-placeholder="youraddress@example.com"
+                           data-lang-fy-placeholder="jooadres@foarbyld.nl"
+                           placeholder="uwadres@voorbeeld.nl">
+                </div>
+                <div class="form-group">
+                    <label for="contact-message"
+                           data-lang-nl="Bericht"
+                           data-lang-en="Message"
+                           data-lang-fy="Berjocht">Bericht</label>
+                    <textarea id="contact-message" name="message" required
+                              data-lang-nl-placeholder="Schrijf hier uw bericht..."
+                              data-lang-en-placeholder="Write your message here..."
+                              data-lang-fy-placeholder="Skriuw hjir jo berjocht..."
+                              placeholder="Schrijf hier uw bericht..."></textarea>
+                </div>
+                <div class="form-recaptcha">
+                    <div class="g-recaptcha" data-sitekey="6LfihbAsAAAAAAwJz5NAYz1qlDQ1lNES53LXutAw"></div>
+                </div>
+                <button type="submit" class="btn-submit"
+                        data-lang-nl="Verstuur bericht"
+                        data-lang-en="Send message"
+                        data-lang-fy="Stjoer berjocht">Verstuur bericht</button>
+                <p class="form-status" id="formStatus"
+                   data-lang-nl-success="Bedankt! Uw bericht is ontvangen."
+                   data-lang-en-success="Thank you! Your message has been received."
+                   data-lang-fy-success="Tank jo! Jo berjocht is ûntfongen."
+                   data-lang-nl-error="Er is iets misgegaan. Probeer het opnieuw."
+                   data-lang-en-error="Something went wrong. Please try again."
+                   data-lang-fy-error="Der gie wat mis. Besykje it opnij."></p>
+            </form>
         </div>
     </section>
 
@@ -170,6 +229,61 @@
         </div>
     </footer>
 
+    <script>
+    (function () {
+        var form = document.getElementById('contactForm');
+        var statusEl = document.getElementById('formStatus');
+        var submitBtn = form ? form.querySelector('.btn-submit') : null;
+
+        if (!form) return;
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            var recaptchaResponse = typeof grecaptcha !== 'undefined'
+                ? grecaptcha.getResponse()
+                : '';
+
+            if (!recaptchaResponse) {
+                showStatus('error');
+                return;
+            }
+
+            var originalText = submitBtn.textContent;
+            submitBtn.disabled = true;
+            submitBtn.textContent = '...';
+            statusEl.className = 'form-status';
+
+            var formData = new FormData(form);
+
+            fetch('contact.php', { method: 'POST', body: formData })
+                .then(function (res) { return res.json(); })
+                .then(function (data) {
+                    if (data.success) {
+                        showStatus('success');
+                        form.reset();
+                        if (typeof grecaptcha !== 'undefined') grecaptcha.reset();
+                    } else {
+                        showStatus('error');
+                    }
+                })
+                .catch(function () {
+                    showStatus('error');
+                })
+                .finally(function () {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = originalText;
+                });
+        });
+
+        function showStatus(type) {
+            var lang = localStorage.getItem('ta-lang') || 'nl';
+            var key = 'lang' + lang.charAt(0).toUpperCase() + lang.slice(1) + (type === 'success' ? 'Success' : 'Error');
+            statusEl.textContent = statusEl.dataset[key] || statusEl.dataset['langNl' + (type === 'success' ? 'Success' : 'Error')];
+            statusEl.className = 'form-status ' + type;
+        }
+    }());
+    </script>
     <script src="js/lang.js"></script>
 </body>
 </html>
